@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+    <a href="/carti"><button class="tablink">Cărți</button></a>
+    <a href="/"><button class="tablink">Logout</button></a>
+    <br><br><br>
+    <table style="width:70%">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Parola</th>
+            <th>Nume</th>
+            <th>Prenume</th>
+            <th>CNP</th>
+            <th>Functie</th>
+            <th>Editeaza</th>
+        </tr>
+        {% for angajat in angajati %}
+            <tr>
+                {% for item in angajat %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+                <td>
+                    <form method="POST" action="/adminEdit">
+                        <button type="submit" name="id" value="{{ angajat[0] }}">Editeaza</button>
+                    </form>
+                    <!-- delete -->
+                    <form method="POST" action="/admin" onsubmit="return confirm('Are you sure you want to delete?');">
+                        <button type="submit" name="delete_flag" value="{{ angajat[0] }}">Sterge</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="/adminAdd">
+        <button type="submit">Agauda</button>
+    </a>
+</body>

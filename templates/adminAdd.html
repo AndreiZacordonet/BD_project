@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adauga angajat</title>
+</head>
+<body>
+    <h2>Adauga angajatul</h2>
+    <form method="POST" action="/admin">
+        <input type="hidden" name="insert_flag" value="1">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="pinguinus"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu username-ul')"
+								oninput="setCustomValidity('')">
+        <label for="password">Password</label>
+        <input type="text" id="password" name="password" placeholder="parolafoarteputernica"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu parola')"
+								oninput="setCustomValidity('')">
+        <label for="nume">Nume</label>
+        <input type="text" id="nume" name="nume" placeholder="Marinel"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu numele')"
+								oninput="setCustomValidity('')">
+        <label for="prenume">Prenume</label>
+        <input type="text" id="prenume" name="prenume" placeholder="TelefonulMeuUndeE"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu prenumele')"
+								oninput="setCustomValidity('')">
+        <label for="cnp">CNP</label>
+        <input type="text" id="cnp" name="cnp" placeholder="123321"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu CNP-ul')"
+								oninput="setCustomValidity('')">
+        <label for="functie">Functie</label>
+        <input type="text" id="functie" name="functie" placeholder="Barbat puternic"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu functia')"
+								oninput="setCustomValidity('')">
+        <button type="submit">Adauga</button>
+    </form>
+</body>
+</html>
