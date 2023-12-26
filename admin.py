@@ -3,7 +3,7 @@ from flask import render_template, request
 
 def admin_func(app, connection):
     """Contine functionalitatile paginii admin"""
-    @app.route('/admin', methods=['GET', 'POST', 'PUT'])
+    @app.route('/admin', methods=['GET', 'POST'])
     def admin():
         if request.method == 'POST':
             if request.form.get('insert_flag'):
@@ -59,6 +59,7 @@ def admin_func(app, connection):
                 '''
                 cursor = connection.cursor()
                 cursor.execute(update_query, values)
+                # modificat commiut and close sa fiedupa if
                 connection.commit()
                 cursor.close()
 

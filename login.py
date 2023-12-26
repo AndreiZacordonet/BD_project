@@ -20,6 +20,6 @@ def login_func(app, connection):
         if (username, password) == ('admin', 'adminpass'):
             return redirect('/admin')
         elif (username, password) in users:
-            return redirect('/carti')
+            return redirect('/persoane')
         else:
             return render_template('login.html', error=1)
