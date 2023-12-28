@@ -1,9 +1,12 @@
-from flask import render_template, request
+from flask import render_template, request, redirect, session
+from autentification import requires_authentication, requires_admin_role
 
 
 def admin_func(app, connection):
     """Contine functionalitatile paginii admin"""
     @app.route('/admin', methods=['GET', 'POST'])
+    @requires_authentication
+    @requires_admin_role
     def admin():
         if request.method == 'POST':
             if request.form.get('insert_flag'):

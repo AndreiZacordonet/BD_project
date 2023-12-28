@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 
 
 def login_func(app, connection):
@@ -6,6 +6,11 @@ def login_func(app, connection):
     @app.route('/')
     def login():
         return render_template('login.html')
+
+    @app.route('/logout')
+    def logout():
+        session.pop('username', None)
+        return redirect('/')
 
     @app.route('/login', methods=['POST'])
     def login_managing():
@@ -17,9 +22,11 @@ def login_func(app, connection):
 
         users = [item for item in cursor]
         cursor.close()
-        if (username, password) == ('admin', 'adminpass'):
+        if (username, password) == ('admin', 'ad'):
+            session['username'] = 'admin'
             return redirect('/admin')
         elif (username, password) in users:
+            session['username'] = username
             return redirect('/persoane')
         else:
             return render_template('login.html', error=1)

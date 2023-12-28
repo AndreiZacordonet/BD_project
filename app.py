@@ -6,6 +6,7 @@ import cx_Oracle as oracledb
 
 
 app = Flask(__name__)
+app.secret_key = 'secret_key'
 
 connection = oracledb.connect('bd026', 'bd026', 'bd-dc.cs.tuiasi.ro:1539/orcl')
 createTables(connection)

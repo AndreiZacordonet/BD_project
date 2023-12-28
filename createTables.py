@@ -1,4 +1,6 @@
 import cx_Oracle as oracledb
+
+
 def createTables(connection):
     cursor = connection.cursor()
 
