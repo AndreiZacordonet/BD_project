@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Imprumuturi</title>
+</head>
+<body>
+    <h2>Imprumuturi</h2>
+    <a href="/"><button class="tablink">Logout</button></a>
+    <a href="/persoane"><button class="tablink">Persoane</button></a>
+    <a href="/carti"><button class="tablink">Carti</button></a>
+    {% if admin_flag %}
+        <a href="/admin"><button class="tablink">Angajati</button></a>
+    {% endif %}
+    <br><br><br>
+    <table style="width: 70%">
+        <tr>
+            <th>ID carte</th>
+            <th>ID persoana</th>
+            <th>Data imprumutare</th>
+            <th>Data returnare</th>
+            <th>CNP</th>
+        </tr>
+        {% for imp in imprumuturi %}
+            <tr>
+                {% for item in imp %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="/submitform">
+        <button type="submit">Inregistrare noua</button>
+    </a>
+</body>
+</html>

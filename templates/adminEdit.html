@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Editeaza Angajat</title>
+</head>
+<body>
+    <h2>Editeaza angajatul</h2>
+    <form method="POST" action="/admin">
+        <!-- stocam id ul in variabila id (folosim input) -->
+        <label for="id">ID: {{ angajat[0] }}</label>
+        <input type="hidden" name="id" value="{{ angajat[0] }}">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="{{ angajat[1] }}"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu username-ul')"
+								oninput="setCustomValidity('')">
+        <label for="password">Password</label>
+        <input type="text" id="password" name="password" value="{{ angajat[2] }}"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu parola')"
+								oninput="setCustomValidity('')">
+        <label for="nume">Nume</label>
+        <input type="text" id="nume" name="nume" value="{{ angajat[3] }}"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu numele')"
+								oninput="setCustomValidity('')">
+        <label for="prenume">Prenume</label>
+        <input type="text" id="prenume" name="prenume" value="{{ angajat[4] }}"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu prenumele')"
+								oninput="setCustomValidity('')">
+        <label for="cnp">CNP</label>
+        <input type="text" id="cnp" name="cnp" value="{{ angajat[5] }}"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu CNP-ul')"
+								oninput="setCustomValidity('')">
+        <label for="functie">Functie</label>
+        <input type="text" id="functie" name="functie" value="{{ angajat[6] }}"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu functia')"
+								oninput="setCustomValidity('')">
+        <button type="submit">Salveaza</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cărți</title>
+</head>
+<body>
+    <h2>Lista cărți</h2>
+    {% if not imp_flag %}
+        <a href="/"><button class="tablink">Logout</button></a>
+        <a href="/persoane"><button class="tablink">Persoane</button></a>
+        <a href="/imprumuturi"><button class="tablink">Imprumuturi</button></a>
+        {% if admin_flag %}
+            <a href="/admin"><button class="tablink">Angajati</button></a>
+        {% endif %}
+    {% endif %}
+    <br><br><br>
+    <table style="width:50%">
+        <tr>
+            <th>ID</th>
+            <th>Titul</th>
+            <th>Autor</th>
+        </tr>
+        {% for carte in carti %}
+            <tr>
+                {% for item in carte %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+                {% if imp_flag %}
+                    <td>
+                    <form id="bookSelect" method="POST" action="/submitform">
+                        <button type="submit" id="carte_{{ carte[0] }}" name="carte" value="{{ carte[0] }}" >Select</button>
+                    </form>
+                    </td>
+                {% else %}
+                    {% if admin_flag %}
+                        <td>
+                            <form method="POST" action="/cartiEdit">
+                                <button type="submit" name="id" value="{{ carte[0] }}">Editeaza</button>
+                            </form>
+                            <!-- delete -->
+                            <form method="POST" action="/carti" onsubmit="return confirm('Are you sure you want to delete?');">
+                                <button type="submit" name="delete_flag" value="{{ carte[0] }}">Sterge</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    {% if imp_flag %}
+        <form method="POST" action="/submitform">
+            <button type="submit" name="submit">Gata</button>
+        </form>
+    {% else %}
+        {% if admin_flag %}
+            <a href="/cartiAdd">
+                <button type="submit">Agauda</button>
+            </a>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

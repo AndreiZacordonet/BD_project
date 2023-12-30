@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Persoane</title>
+</head>
+<body>
+    <h2>Tabel Persoane inregistrate</h2>
+    {% if not imp_flag %}
+        <a href="/"><button class="tablink">Logout</button></a>
+        <a href="/carti"><button class="tablink">Cărți</button></a>
+        <a href="/imprumuturi"><button class="tablink">Imprumuturi</button></a>
+        {% if admin_flag %}
+            <a href="/admin"><button class="tablink">Angajati</button></a>
+        {% endif %}
+    {% endif %}
+    <br><br><br>
+    <table style="width:70%">
+        <tr>
+            <th>ID</th>
+            <th>Nume</th>
+            <th>Prenume</th>
+            <th>CNP</th>
+        </tr>
+        {% for persoana in persoane %}
+            <tr>
+                {% for item in persoana %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+                <td>
+                    {% if imp_flag %}
+                        <form id="persSelectForm" method="POST" action="/submitform">
+                            <button type="submit" id="id" name="id" value="{{ persoana[0] }}">Imprumuta</button>
+                        </form>
+                    {% else %}
+                        <form method="POST" action="/persoaneEdit">
+                            <button type="submit" name="id" value="{{ persoana[0] }}">Editeaza</button>
+                        </form>
+                        <form method="POST" action="/persoane" onsubmit="return confirm('Are you sure you want to delete?');">
+                            <button type="submit" name="delete_flag" value="{{ persoana[0] }}">Sterge</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="/persoaneAdd">
+        <button type="submit">Agauda</button>
+    </a>
+</body>
+</html>

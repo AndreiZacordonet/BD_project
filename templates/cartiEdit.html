@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Editeaza cartea</title>
+</head>
+<body>
+    <h2>Editeaza cartea</h2>
+    <form method="POST" action="/carti">
+        <!-- stocam id ul in variabila id (folosim input) -->
+        <label for="id">ID: {{ carte[0] }}</label>
+        <input type="hidden" name="id" value="{{ carte[0] }}">
+        <label for="titlu">Titlu</label>
+        <input type="text" id="titlu" name="titlu" value="{{ carte[1] }}"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu titlul')"
+								oninput="setCustomValidity('')">
+        <label for="autor">Autor</label>
+        <input type="text" id="autor" name="autor" value="{{ carte[2] }}"
+                                required oninvalid=
+								"this.setCustomValidity('Introdu autorul')"
+								oninput="setCustomValidity('')">
+        <button type="submit">Salveaza</button>
+    </form>
+</body>
+</html>

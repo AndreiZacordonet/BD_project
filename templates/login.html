@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login Here</h1>
+
+    <!-- Display error message in red if error exists-->
+    {% if error %}
+        <p style="color: #ff0000;">Username sau parola gresita</p>
+    {% endif %}
+
+    <!-- Form for user login -->
+    <form method="POST" action="/login"> <!-- schimbam methoda in post si redirectul in login-->
+        <!-- User and pass input fields -->
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required oninvalid=
+								"this.setCustomValidity('Introdu username-ul')"
+								oninput="setCustomValidity('')">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required oninvalid=
+								"this.setCustomValidity('Introdu parola')"
+								oninput="setCustomValidity('')">
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
