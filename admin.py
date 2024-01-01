@@ -66,6 +66,14 @@ def admin_func(app, connection):
                 connection.commit()
                 cursor.close()
 
+            # cursor = connection.cursor()
+            # cursor.execute('SELECT * FROM angajati')
+            # angajati = []
+            # for item in cursor:
+            #     angajati.append([x for x in item])
+            # cursor.close()
+            # return redirect('admin.html', angajati=angajati)
+
         # selectam informatiile din baza de date cu angajatii
         # si le transmitem catre  pagina
         cursor = connection.cursor()

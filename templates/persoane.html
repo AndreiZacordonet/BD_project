@@ -44,8 +44,14 @@
             </tr>
         {% endfor %}
     </table>
-    <a href="/persoaneAdd">
-        <button type="submit">Agauda</button>
-    </a>
+    {% if imp_flag %}
+        <a href="/submitform">
+            <button type="submit">Cancel</button>
+        </a>
+    {% else %}
+        <a href="/persoaneAdd">
+            <button type="submit">Agauda</button>
+        </a>
+    {% endif %}
 </body>
 </html>

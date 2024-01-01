@@ -26,11 +26,39 @@
                 {% for item in imp %}
                     <td>{{ item }}</td>
                 {% endfor %}
+                <td>
+                    <form method="POST" action="/imprumuturi" id="deleteForm" name="deleteForm"
+                                    onsubmit="return confirm('Are you sure you want to delete?');">
+                        <button type="submit" name="delete_flag" value="{{ imp }}">Sterge</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </table>
     <a href="/submitform">
         <button type="submit">Inregistrare noua</button>
     </a>
+    <br><br><br>
+    <h2>Intarzieri</h2>
+    <table style="width: 70%">
+        <tr>
+            <th>ID carte</th>
+            <th>ID persoana</th>
+            <th>Data returnare</th>
+        </tr>
+        {% for int in intarzieri %}
+            <tr>
+                {% for item in int %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+                <td>
+                    <form method="POST" action="/imprumuturi" id="deleteFormINT" name="deleteFormINT"
+                                    onsubmit="return confirm('Are you sure you want to delete?');">
+                        <button type="submit" name="delete_flag_int" value="{{ int }}">Sterge</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

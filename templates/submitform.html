@@ -8,7 +8,9 @@
     <h2>Imprumut nou</h2>
     <form id="persoaneForm" method="POST" action="/persoane">
         <label for="persoana">Persoana:</label>
-        <input type="text" id="persoana" name="persoana" readonly value="{{ persoana[0] }}">
+        <input type="text" id="persoana" name="persoana" placeholder="-" readonly value="{{ persoana[0] }}" required oninvalid=
+								"this.setCustomValidity('Introdu persoana de zile')"
+								oninput="setCustomValidity('-')">
         <button type="submit" name="imp_flag" value="{{ imp_flag }}">Persoana</button>
     </form>
     <form id="cartiForm" method="POST" action="/carti">
@@ -20,8 +22,13 @@
         <input type="number" min="1" max="21" id="nr_days" name="nr_days" required oninvalid=
 								"this.setCustomValidity('Introdu nuamrul de zile')"
 								oninput="setCustomValidity('')">
-       <input type="hidden" id="persoana2" name="persoana" value="{{ persoana[0] }}">
+        <input type="hidden" id="persoana2" name="persoana" value="{{ persoana[0] }}" required oninvalid=
+								"this.setCustomValidity('Introdu persoana de zile')"
+								oninput="setCustomValidity('')">
         <button type="submit" name="books" value="{{ book_list }}">Done</button>
     </form>
+    <a href="/imprumuturi">
+        <button type="submit" name="cancel" >Cancel</button>
+    </a>
 </body>
 </html>

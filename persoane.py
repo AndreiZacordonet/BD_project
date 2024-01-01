@@ -59,6 +59,13 @@ def persoane_func(app, connection):
                 # modificat commiut and close sa fiedupa if
                 connection.commit()
                 cursor.close()
+
+            cursor = connection.cursor()
+            cursor.execute('SELECT * FROM persoane')
+            pers = cursor.fetchall()
+            cursor.close()
+            return redirect(url_for('persoane', persoane=pers, admin_flag=session['admin_flag']))
+
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM persoane')
         pers = cursor.fetchall()

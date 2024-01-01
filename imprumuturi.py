@@ -1,4 +1,6 @@
-from flask import render_template, session, request
+import re
+
+from flask import render_template, session, request, redirect, url_for
 
 from autentification import requires_authentication2
 
@@ -35,21 +37,65 @@ def imprumuturi_func(app, connection):
                     insert_query = f'''
                                     INSERT INTO imprumuturi
                                     VALUES ({b}, {persoana[0]}, CURRENT_DATE ,
-                                        CURRENT_DATE + INTERVAL '{nr_days}' DAY, {persoana[3]})
+                                        CURRENT_DATE + INTERVAL '{nr_days}' SECOND, {persoana[3]})
                                     '''
                     cursor.execute(insert_query)
-                # print('all good')
                 connection.commit()
                 cursor.close()
             else:
                 print('smth baaad ah')
 
+            imprumut = request.form.get('delete_flag')
+            if imprumut:
+                numbers = [int(match.group()) for match in re.finditer(r'\b\d+\b', imprumut)][:2]
+                cursor = connection.cursor()
+                cursor.execute(f'''DELETE FROM imprumuturi WHERE id_carte={numbers[0]}
+                               AND id_persoana={numbers[1]}''')
+                connection.commit()
+                cursor.close()
+
+            intarz = request.form.get('delete_flag_int')
+            print(intarz)
+            if intarz:
+                print(intarz, type(intarz))
+                numbers = [int(match.group()) for match in re.finditer(r'\b\d+\b', intarz)][:2]
+                cursor = connection.cursor()
+                cursor.execute(f'''DELETE FROM intarzieri WHERE id_carte={numbers[0]}
+                                           AND id_persoana={numbers[1]}''')
+                connection.commit()
+                cursor.close()
+
+            cursor = connection.cursor()
+            # inseram cartile cu intarziere in tabela intarzieri
+            cursor.execute('INSERT INTO intarzieri SELECT id_carte, id_persoana, data_returnare FROM imprumuturi '
+                           'WHERE data_returnare < SYSDATE')
+            # inseram fiecare intarziere (cu un for)
+
+            # delete imp care au intarziere DATE_RETUR < SYSDATE
+            cursor.execute('DELETE FROM imprumuturi WHERE data_returnare < SYSDATE')
+            connection.commit()
+            cursor.execute('SELECT * FROM intarzieri')
+            intarzieri = cursor.fetchall()
+            cursor.execute('SELECT * FROM imprumuturi')
+            imprumuturi = cursor.fetchall()
+            cursor.close()
+            return redirect(url_for('imprumuturi', imprumuturi=imprumuturi, intarzieri=intarzieri, admin_flag=session['admin_flag']))
 
         cursor = connection.cursor()
+        # inseram cartile cu intarziere in tabela intarzieri
+        cursor.execute('INSERT INTO intarzieri SELECT id_carte, id_persoana, data_returnare FROM imprumuturi WHERE '
+                       'data_returnare < SYSDATE')
+        # inseram fiecare intarziere (cu un for)
+
+        # delete imp care au intarziere DATE_RETUR < SYSDATE
+        cursor.execute('DELETE FROM imprumuturi WHERE data_returnare < SYSDATE')
+        connection.commit()
+        cursor.execute('SELECT * FROM intarzieri')
+        intarzieri = cursor.fetchall()
         cursor.execute('SELECT * FROM imprumuturi')
         imprumuturi = cursor.fetchall()
         cursor.close()
-        return render_template('imprumuturi.html', imprumuturi=imprumuturi, admin_flag=session['admin_flag'])
+        return render_template('imprumuturi.html', imprumuturi=imprumuturi, intarzieri=intarzieri, admin_flag=session['admin_flag'])
 
     @app.route('/submitform', methods=['GET', 'POST'])
     @requires_authentication2

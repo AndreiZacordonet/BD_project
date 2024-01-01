@@ -1,4 +1,4 @@
-from flask import render_template, session, request
+from flask import render_template, session, request, redirect, url_for
 
 from autentification import requires_authentication2
 
@@ -36,11 +36,20 @@ def carti_func(app, connection):
                 cursor.execute('SELECT * FROM carti')
                 carti = cursor.fetchall()
                 cursor.execute('SELECT id_carte FROM IMPRUMUTURI WHERE data_returnare > SYSDATE ')
+                # explcudem si cartile cu intarziere (poate in selectul de mai sus)
                 carti_imp = cursor.fetchall()
                 carti_imp = [item[0] for item in carti_imp]
+
+                cursor.execute('SELECT id_carte FROM intarzieri')
+                carti_int = cursor.fetchall()
+                carti_int = [item[0] for item in carti_int]
+
                 carti2 = carti.copy()
                 for carte in carti:
                     if carte[0] in carti_imp:
+                        carti2.remove(carte)
+                for carte in carti:
+                    if carte[0] in carti_int:
                         carti2.remove(carte)
                 cursor.close()
                 return render_template('carti.html', carti=carti2, imp_flag=True)
@@ -63,6 +72,14 @@ def carti_func(app, connection):
                 # modificat commiut and close sa fiedupa if
                 connection.commit()
                 cursor.close()
+
+            cursor = connection.cursor()
+            cursor.execute('SELECT * FROM carti')
+            carti = []
+            for item in cursor:
+                carti.append([x for x in item])
+            cursor.close()
+            return redirect(url_for('carti', carti=carti, admin_flag=session['admin_flag']))
 
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM carti')
