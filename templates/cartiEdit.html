@@ -6,6 +6,9 @@
 </head>
 <body>
     <h2>Editeaza cartea</h2>
+    {% if error %}
+        <p style="color: #ff0000;">Nume autor gresit!</p>
+    {% endif %}
     <form method="POST" action="/carti">
         <!-- stocam id ul in variabila id (folosim input) -->
         <label for="id">ID: {{ carte[0] }}</label>
@@ -22,5 +25,8 @@
 								oninput="setCustomValidity('')">
         <button type="submit">Salveaza</button>
     </form>
+    <a href="/carti">
+        <button type="submit">Cancel</button>
+    </a>
 </body>
 </html>

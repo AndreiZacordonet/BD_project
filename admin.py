@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, session
 from autentification import requires_authentication, requires_admin_role, requires_authentication2
+import cx_Oracle as oracledb
 
 
 def admin_func(app, connection):
@@ -14,8 +15,16 @@ def admin_func(app, connection):
                 password = request.form.get('password')
                 nume = request.form.get('nume')
                 prenume = request.form.get('prenume')
-                cnp = int(request.form.get('cnp'))
+                cnp = request.form.get('cnp')
                 functie = request.form.get('functie')
+
+                if not nume.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('adminAdd.html', error=1)
+                if not prenume.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('adminAdd.html', error=2)
+                if not (cnp.isnumeric() and len(cnp) == 13):
+                    return render_template('adminAdd.html', error=3)
+
                 values = {
                     'username': username,
                     'password': password,
@@ -29,7 +38,10 @@ def admin_func(app, connection):
                             VALUES (:username, :password, :nume, :prenume, :cnp, :functie)
                         '''
                 cursor = connection.cursor()
-                cursor.execute(insert_query, values)
+                try:
+                    cursor.execute(insert_query, values)
+                except oracledb.Error:
+                    return render_template('adminAdd.html', error=4)
                 connection.commit()
                 cursor.close()
             elif request.form.get('delete_flag'):
@@ -44,8 +56,17 @@ def admin_func(app, connection):
                 password = request.form.get('password')
                 nume = request.form.get('nume')
                 prenume = request.form.get('prenume')
-                cnp = int(request.form.get('cnp'))
+                cnp = request.form.get('cnp')
                 functie = request.form.get('functie')
+                angajat = [id, username, password, nume, prenume, cnp, functie]
+
+                if not nume.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('adminEdit.html', angajat=angajat, error=1)
+                if not prenume.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('adminEdit.html', angajat=angajat, error=2)
+                if not (cnp.isnumeric() and len(cnp) == 13):
+                    return render_template('adminEdit.html', angajat=angajat, error=3)
+
                 values = {
                     'id': id,
                     'username': username,
@@ -61,7 +82,10 @@ def admin_func(app, connection):
                     WHERE id=:id
                 '''
                 cursor = connection.cursor()
-                cursor.execute(update_query, values)
+                try:
+                    cursor.execute(update_query, values)
+                except oracledb.Error:
+                    return render_template('adminEdit.html', angajat=angajat, error=4)
                 # modificat commiut and close sa fiedupa if
                 connection.commit()
                 cursor.close()

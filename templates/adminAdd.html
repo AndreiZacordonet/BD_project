@@ -6,6 +6,15 @@
 </head>
 <body>
     <h2>Adauga angajatul</h2>
+    {% if error == 1 %}
+        <p style="color: #ff0000;">Nume gresit!</p>
+    {% elif error == 2 %}
+        <p style="color: #ff0000;">Prenume gresit!</p>
+    {% elif error == 3 %}
+        <p style="color: #ff0000;">CNP gresit!</p>
+    {% elif error == 4 %}
+        <p style="color: #ff0000;">Username already exists!</p>
+    {% endif %}
     <form method="POST" action="/admin">
         <input type="hidden" name="insert_flag" value="1">
         <label for="username">Username</label>
@@ -40,5 +49,8 @@
 								oninput="setCustomValidity('')">
         <button type="submit">Adauga</button>
     </form>
+    <a href="/admin">
+        <button type="submit">Cancel</button>
+    </a>
 </body>
 </html>

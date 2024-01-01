@@ -1,3 +1,4 @@
+import cx_Oracle
 from flask import render_template, request, session, redirect, url_for
 
 from autentification import requires_authentication2
@@ -11,7 +12,15 @@ def persoane_func(app, connection):
             if request.form.get('insert_flag'):
                 nume = request.form.get('nume')
                 prenume = request.form.get('prenume')
-                cnp = int(request.form.get('cnp'))
+                cnp = request.form.get('cnp')
+
+                if not nume.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('persoaneAdd.html', error=1)
+                if not prenume.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('persoaneAdd.html', error=2)
+                if not (cnp.isnumeric() and len(cnp) == 13):
+                    return render_template('persoaneAdd.html', error=3)
+
                 values = {
                     'nume': nume,
                     'prenume': prenume,
@@ -22,7 +31,10 @@ def persoane_func(app, connection):
                             VALUES (:nume, :prenume, :cnp)
                         '''
                 cursor = connection.cursor()
-                cursor.execute(insert_query, values)
+                try:
+                    cursor.execute(insert_query, values)
+                except cx_Oracle.Error:
+                    return render_template('persoaneAdd.html', error=4)
                 connection.commit()
                 cursor.close()
             elif request.form.get('delete_flag'):
@@ -42,7 +54,16 @@ def persoane_func(app, connection):
                 id = int(request.form.get('id'))
                 nume = request.form.get('nume')
                 prenume = request.form.get('prenume')
-                cnp = int(request.form.get('cnp'))
+                cnp = request.form.get('cnp')
+                persoana = [id, nume, prenume, cnp]
+
+                if not nume.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('persoaneEdit.html', persoana=persoana, error=1)
+                if not prenume.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('persoaneEdit.html', persoana=persoana, error=2)
+                if not (cnp.isnumeric() and len(cnp) == 13):
+                    return render_template('persoaneEdit.html', persoana=persoana, error=3)
+
                 values = {
                     'id': id,
                     'nume': nume,
@@ -55,7 +76,10 @@ def persoane_func(app, connection):
                                     WHERE id=:id
                                 '''
                 cursor = connection.cursor()
-                cursor.execute(update_query, values)
+                try:
+                    cursor.execute(update_query, values)
+                except cx_Oracle.Error:
+                    return render_template('persoaneEdit.html', persoana=persoana, error=4)
                 # modificat commiut and close sa fiedupa if
                 connection.commit()
                 cursor.close()

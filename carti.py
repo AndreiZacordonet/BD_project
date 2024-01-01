@@ -13,6 +13,10 @@ def carti_func(app, connection):
             if request.form.get('insert_flag'):
                 titlu = request.form.get('titlu')
                 autor = request.form.get('autor')
+
+                if not autor.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('cartiAdd.html', error=1)
+
                 values = {
                     'titlu': titlu,
                     'autor': autor,
@@ -57,6 +61,10 @@ def carti_func(app, connection):
                 id = int(request.form.get('id'))
                 titlu = request.form.get('titlu')
                 autor = request.form.get('autor')
+                carte = [id, titlu, autor]
+                if not autor.replace(' ', '').replace('-', '').isalpha():
+                    return render_template('cartiEdit.html', carte=carte, error=1)
+
                 values = {
                     'id': id,
                     'titlu': titlu,

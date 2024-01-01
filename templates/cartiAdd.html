@@ -6,6 +6,9 @@
 </head>
 <body>
     <h2>Adauga carte</h2>
+    {% if error %}
+        <p style="color: #ff0000;">Nume gresit!</p>
+    {% endif %}
     <form method="POST" action="/carti">
         <input type="hidden" name="insert_flag" value="1">
         <label for="titlu">Titlu</label>
