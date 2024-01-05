@@ -51,6 +51,7 @@ def carti_func(app, connection):
                 carti2 = carti.copy()
                 for carte in carti:
                     if carte[0] in carti_imp:
+                        # da value error??
                         carti2.remove(carte)
                 for carte in carti:
                     if carte[0] in carti_int:

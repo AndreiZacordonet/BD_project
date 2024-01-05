@@ -2,6 +2,7 @@ import cx_Oracle
 from flask import render_template, request, session, redirect, url_for
 
 from autentification import requires_authentication2
+from validator_cnp import Validare_CNP
 
 
 def persoane_func(app, connection):
@@ -18,7 +19,7 @@ def persoane_func(app, connection):
                     return render_template('persoaneAdd.html', error=1)
                 if not prenume.replace(' ', '').replace('-', '').isalpha():
                     return render_template('persoaneAdd.html', error=2)
-                if not (cnp.isnumeric() and len(cnp) == 13):
+                if not Validare_CNP(cnp):
                     return render_template('persoaneAdd.html', error=3)
 
                 values = {
@@ -61,7 +62,7 @@ def persoane_func(app, connection):
                     return render_template('persoaneEdit.html', persoana=persoana, error=1)
                 if not prenume.replace(' ', '').replace('-', '').isalpha():
                     return render_template('persoaneEdit.html', persoana=persoana, error=2)
-                if not (cnp.isnumeric() and len(cnp) == 13):
+                if not Validare_CNP(cnp):
                     return render_template('persoaneEdit.html', persoana=persoana, error=3)
 
                 values = {

@@ -1,6 +1,8 @@
-from flask import render_template, request, redirect, session
+from flask import render_template, request
 from autentification import requires_authentication, requires_admin_role, requires_authentication2
 import cx_Oracle as oracledb
+
+from validator_cnp import Validare_CNP
 
 
 def admin_func(app, connection):
@@ -22,7 +24,7 @@ def admin_func(app, connection):
                     return render_template('adminAdd.html', error=1)
                 if not prenume.replace(' ', '').replace('-', '').isalpha():
                     return render_template('adminAdd.html', error=2)
-                if not (cnp.isnumeric() and len(cnp) == 13):
+                if not Validare_CNP(cnp):
                     return render_template('adminAdd.html', error=3)
 
                 values = {
@@ -64,7 +66,7 @@ def admin_func(app, connection):
                     return render_template('adminEdit.html', angajat=angajat, error=1)
                 if not prenume.replace(' ', '').replace('-', '').isalpha():
                     return render_template('adminEdit.html', angajat=angajat, error=2)
-                if not (cnp.isnumeric() and len(cnp) == 13):
+                if not Validare_CNP(cnp):
                     return render_template('adminEdit.html', angajat=angajat, error=3)
 
                 values = {

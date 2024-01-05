@@ -71,8 +71,8 @@ def cifra_control(cnp):
         return False
 
 
-def Validare_CNP():
-    cnp = str(input('Introdu CNP: '))
+def Validare_CNP(cnp):
+    cnp = str(cnp)
     c = 0
     while c == 0:
         c = lungime(cnp)
@@ -82,31 +82,36 @@ def Validare_CNP():
                 c = data(cnp)
                 if c == 1:
                     c = validare_judet(cnp)
-                    c = validare_judet(cnp)
-
                     if c == 1:
                         c = cifra_control(cnp)
                         if c == 1:
                             print('CNP corect!')
+                            break
                         else:
                             print('cifra control gresita')
-                            cnp = input('CNP gresit. Introdu CNP: ')
+                            # cnp = input('CNP gresit. Introdu CNP: ')
                             c = 0
+                            break
                     else:
                         print('judet inexistent')
-                        cnp = input('CNP gresit. Introdu CNP: ')
+                        # cnp = input('CNP gresit. Introdu CNP: ')
                         c = 0
+                        break
                 else:
-                    cnp = input('CNP gresit. Introdu CNP: ')
+                    # cnp = input('CNP gresit. Introdu CNP: ')
                     c = 0
+                    break
             else:
                 print('prima cifra gresita')
-                cnp = input('CNP gresit. Introdu CNP: ')
+                # cnp = input('CNP gresit. Introdu CNP: ')
                 c = 0
+                break
         else:
             print('lungime gresita')
-            cnp = input('CNP gresit. Introdu CNP: ')
+            # cnp = input('CNP gresit. Introdu CNP: ')
             c = 0
+            break
+    return c
 
 
-Validare_CNP()
+print(Validare_CNP(1021003226739))

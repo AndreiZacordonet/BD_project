@@ -19,17 +19,17 @@
     <form method="POST" action="/persoane">
         <input type="hidden" name="insert_flag" value="1">
         <label for="nume">Nume</label>
-        <input type="text" id="nume" name="nume" placeholder="Marinel"
+        <input type="text" id="nume" name="nume" placeholder="ex: Harabagiu"
                                 required oninvalid=
 								"this.setCustomValidity('Introdu numele')"
 								oninput="setCustomValidity('')">
         <label for="prenume">Prenume</label>
-        <input type="text" id="prenume" name="prenume" placeholder="TelefonulMeuUndeE"
+        <input type="text" id="prenume" name="prenume" placeholder="ex: Ștefan-Alexandru"
                                 required oninvalid=
 								"this.setCustomValidity('Introdu prenumele')"
 								oninput="setCustomValidity('')">
         <label for="cnp">CNP</label>
-        <input type="text" id="cnp" name="cnp" placeholder="123321"
+        <input type="text" id="cnp" name="cnp" placeholder="ex: 5020930227474"
                                 required oninvalid=
 								"this.setCustomValidity('Introdu CNP-ul')"
 								oninput="setCustomValidity('')">

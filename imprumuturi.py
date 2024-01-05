@@ -37,7 +37,7 @@ def imprumuturi_func(app, connection):
                     insert_query = f'''
                                     INSERT INTO imprumuturi
                                     VALUES ({b}, {persoana[0]}, CURRENT_DATE ,
-                                        CURRENT_DATE + INTERVAL '{nr_days}' SECOND, {persoana[3]})
+                                        CURRENT_DATE + INTERVAL '{nr_days}' DAY, {persoana[3]})
                                     '''
                     cursor.execute(insert_query)
                 connection.commit()
